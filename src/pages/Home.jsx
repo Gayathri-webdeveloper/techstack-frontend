@@ -7,14 +7,16 @@ import FeedbackForm from '../components/FeedbackForm'
 const API = import.meta.env.VITE_API_URL || ''
 
 const SERVICES = [
-  { no:'01', icon:'🌐', title:'Web Development',        desc:'Custom full-stack web applications — dashboards, portals, SaaS products, business websites built with modern MERN stack for speed and scale.', tags:['React','Node.js','MongoDB','Express'] },
-  { no:'02', icon:'📱', title:'Mobile App Development', desc:'Cross-platform mobile apps for iOS and Android from a single clean codebase. Smooth, native-feeling apps that users love.', tags:['React Native','Expo'] },
-  { no:'03', icon:'🤖', title:'AI & Automation',        desc:'Integrate AI into your business — smart chatbots, document processing, workflow automation and intelligent data pipelines powered by LLMs.', tags:['OpenAI','LangChain','Python'] },
-  { no:'04', icon:'🛒', title:'E-Commerce Platforms',   desc:'Custom online stores with payment gateway integration, inventory management, order tracking and seller dashboards tailored to your business.', tags:['Next.js','Stripe','Razorpay'] },
-  { no:'05', icon:'🎓', title:'Academic Projects',      desc:'Final-year engineering projects from concept to completion — fully documented, presentation-ready and built to impress your evaluators.', tags:['All Stacks','Documentation','Guidance'] },
-  { no:'06', icon:'🎨', title:'UI/UX Design',           desc:'Clean, modern interfaces that look premium and feel intuitive — wireframes, prototypes and pixel-perfect design systems.', tags:['Figma','Prototyping','Design Systems'] },
-  { no:'07', icon:'🔌', title:'Embedded Systems',       desc:'Microcontroller-based project development — IoT systems, sensor integration, Arduino/Raspberry Pi projects and firmware programming.', tags:['Arduino','Raspberry Pi','IoT','C/C++'] },
-  { no:'08', icon:'🔧', title:'Hardware Projects',      desc:'End-to-end hardware project development — circuit design, PCB layout and physical prototyping for academic and industrial use.', tags:['PCB Design','Prototyping','Circuit Design'] },
+  { no:'01', icon:'🌐', img:'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=500&auto=format&fit=crop&q=60', title:'Web Development', desc:'Custom full-stack web applications — dashboards, portals, SaaS products and business websites built with modern MERN stack for speed and scale.', tags:['React','Node.js','MongoDB','Express'] },
+  { no:'02', icon:'📱', img:'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=500&auto=format&fit=crop&q=60', title:'Mobile App Development', desc:'Cross-platform mobile apps for iOS and Android from a single clean codebase. Smooth, native-feeling apps that users love.', tags:['React Native','Expo'] },
+  { no:'03', icon:'🤖', img:'https://plus.unsplash.com/premium_photo-1676637656166-cb7b3a43b81a?w=500&auto=format&fit=crop&q=60', title:'AI & Automation', desc:'Integrate AI into your business — smart chatbots, document processing, workflow automation and intelligent data pipelines powered by LLMs.', tags:['OpenAI','LangChain','Python'] },
+  { no:'04', icon:'🛒', img:'https://images.unsplash.com/photo-1732258357159-599cd37a5b8a?w=500&auto=format&fit=crop&q=60', title:'E-Commerce Platforms', desc:'Custom online stores with payment gateway integration, inventory management, order tracking and seller dashboards tailored to your business.', tags:['Next.js','Stripe','Razorpay'] },
+  { no:'05', icon:'🎓', img:'https://images.unsplash.com/photo-1572177812156-58036aae439c?w=500&auto=format&fit=crop&q=60', title:'Academic & School Projects', desc:'Final-year engineering projects, school science projects and Arduino-based embedded projects — from concept to completion, fully documented and presentation-ready.', tags:['All Stacks','Arduino','Documentation','Guidance'] },
+  { no:'06', icon:'🎨', img:'https://images.unsplash.com/photo-1618788372246-79faff0c3742?w=500&auto=format&fit=crop&q=60', title:'UI/UX Design', desc:'Clean, modern interfaces that look premium and feel intuitive — wireframes, prototypes and pixel-perfect design systems.', tags:['Figma','Prototyping','Design Systems'] },
+  { no:'07', icon:'🔌', img:'https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=500&auto=format&fit=crop&q=60', title:'Embedded & Arduino Projects', desc:'Microcontroller-based project development — IoT systems, sensor integration, Arduino/Raspberry Pi/ESP32 projects and firmware programming for students and industries.', tags:['Arduino','Raspberry Pi','ESP32','IoT','C/C++'] },
+  { no:'08', icon:'🔧', img:'https://plus.unsplash.com/premium_photo-1683120972279-87efe2ba252f?w=500&auto=format&fit=crop&q=60', title:'Hardware Projects', desc:'End-to-end hardware project development — circuit design, PCB layout and physical prototyping for academic and industrial applications.', tags:['PCB Design','Prototyping','Circuit Design'] },
+  { no:'09', icon:'📄', img:'https://images.unsplash.com/photo-1570929057588-6952f7dd2305?w=500&auto=format&fit=crop&q=60', title:'Journal & Research Papers', desc:'We help students and researchers write, format and publish IEEE/Scopus/UGC journal papers and research articles — topic selection to final submission.', tags:['IEEE','Scopus','UGC','Research Writing'] },
+  { no:'10', icon:'🏅', img:'https://images.unsplash.com/photo-1645570990200-2701a49d45ca?w=500&auto=format&fit=crop&q=60', title:'Patent Filing Assistance', desc:'Got an innovative idea? We help you draft, document and file patents — from prior art search to complete patent application preparation.', tags:['Patent Drafting','Prior Art','IP Filing'] },
 ]
 
 const PROCESS = [
@@ -74,38 +76,59 @@ export default function Home() {
 
       {/* ══ HERO ══ */}
       <section id="hero">
-        <div className="hero-inner">
-          <div className="hero-badge">
-            <span className="badge-dot"/>
-            Est. 2026 · Tirunelveli, Tamil Nadu
-          </div>
-          <h1 className="hero-h1">
-            <span className="plain">Engineering</span>
-            <span className="grad">Digital Excellence</span>
-          </h1>
-          <div className="hero-divider"/>
-          <p className="hero-sub">
-            TechStack is a full-service software studio delivering precision-built web apps, mobile apps, AI solutions, e-commerce platforms, embedded systems and hardware projects — engineered to the highest standard.
-          </p>
-          <div className="hero-actions">
-            <button className="btn btn-purple" onClick={()=>scroll('#contact')}>Start a Project →</button>
-            <button className="btn btn-outline" onClick={()=>scroll('#services')}>Our Services</button>
-          </div>
-          <div className="hero-stats">
-            <div>
-              <div className="stat-val">{projects.length > 0 ? `${projects.length}+` : '∞'}</div>
-              <div className="stat-lbl">Projects</div>
+        <div className="hero-layout">
+          {/* Left — Text Content */}
+          <div className="hero-inner">
+            <div className="hero-badge">
+              <span className="badge-dot"/>
+              Est. 2026 · Tirunelveli, Tamil Nadu
             </div>
-            <div>
-              <div className="stat-val">8+</div>
-              <div className="stat-lbl">Services</div>
+            <h1 className="hero-h1">
+              <span className="plain">Engineering</span>
+              <span className="grad">Digital Excellence</span>
+            </h1>
+            <div className="hero-divider"/>
+            <p className="hero-sub">
+              TechStack is a full-service software studio delivering precision-built web apps, mobile apps, AI solutions, e-commerce platforms, embedded systems and hardware projects — engineered to the highest standard.
+            </p>
+            <div className="hero-actions">
+              <button className="btn btn-purple" onClick={()=>scroll('#contact')}>Start a Project →</button>
+              <button className="btn btn-outline" onClick={()=>scroll('#services')}>Our Services</button>
             </div>
-            <div>
-              <div className="stat-val">24h</div>
-              <div className="stat-lbl">Response Time</div>
+            <div className="hero-stats">
+              <div>
+                <div className="stat-val">{projects.length > 0 ? `${projects.length}+` : '∞'}</div>
+                <div className="stat-lbl">Projects</div>
+              </div>
+              <div>
+                <div className="stat-val">10+</div>
+                <div className="stat-lbl">Services</div>
+              </div>
+              <div>
+                <div className="stat-val">24h</div>
+                <div className="stat-lbl">Response Time</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right — Hero Image */}
+          <div className="hero-img-wrap">
+            <div className="hero-img-border">
+              <img
+                src="https://plus.unsplash.com/premium_photo-1752326185528-2ae789bd1581?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzd8fHRlY2hub2xvZ3klMjBpbWFnZSUyMG9mJTIwY29tcG9uZW50cy0lMjBncmVlbiUyMHRoZW1lfGVufDB8fDB8fHww"
+                alt="TechStack — Engineering Digital Excellence"
+                className="hero-img"
+                loading="lazy"
+              />
+              <div className="hero-img-overlay"/>
+              <div className="hero-img-badge">
+                <span className="badge-dot"/>
+                Building since 2026
+              </div>
             </div>
           </div>
         </div>
+
         <div className="hero-scroll">
           <span>Scroll</span>
           <div className="scroll-line"/>
@@ -132,7 +155,10 @@ export default function Home() {
                 <Reveal key={s.no} delay={i * 0.06}>
                   <div className="srv-card">
                     <span className="srv-num">{s.no}</span>
-                    <div className="srv-icon-wrap">{s.icon}</div>
+                    {s.img
+                      ? <img src={s.img} alt={s.title} className="srv-card-img" loading="lazy"/>
+                      : <div className="srv-icon-wrap">{s.icon}</div>
+                    }
                     <h3>{s.title}</h3>
                     <p>{s.desc}</p>
                     <div className="srv-tags">
@@ -241,7 +267,10 @@ export default function Home() {
                 {achievements.map((a,i) => (
                   <Reveal key={a._id} delay={i*0.07}>
                     <div className="ach-card">
-                      <div className="ach-icon">{a.icon}</div>
+                      {a.image && a.image.trim() !== ''
+                        ? <img src={a.image} alt={a.title} className="ach-card-img" onError={e=>e.target.style.display='none'}/>
+                        : <div className="ach-icon">{a.icon}</div>
+                      }
                       <h3>{a.title}</h3>
                       <p>{a.description}</p>
                       {a.date && <span className="ach-date">{a.date}</span>}
@@ -267,6 +296,22 @@ export default function Home() {
               <h2 className="sec-h2">Clear Process,<br/><em>Zero Surprises</em></h2>
               <p className="sec-p">We believe great software comes from great communication. Here's exactly how every TechStack project runs.</p>
             </Reveal>
+
+            {/* Process image */}
+            <Reveal delay={0.1}>
+              <div className="process-img-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1587440871875-191322ee64b0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvY2Vzc3xlbnwwfHwwfHx8MA%3D%3D"
+                  alt="TechStack team working on a project"
+                  className="process-img"
+                  loading="lazy"
+                />
+                <div className="process-img-overlay">
+                  <div className="process-img-tag">◆ How We Build</div>
+                </div>
+              </div>
+            </Reveal>
+
             <div className="process-list">
               {PROCESS.map((p,i) => (
                 <Reveal key={p.num} delay={i*0.09}>
@@ -336,7 +381,7 @@ export default function Home() {
                 { icon:'⚡', title:'Fast Delivery',       desc:'We ship projects on time, every time. Our sprint-based process ensures you see real working progress every single week — not just status updates.' },
                 { icon:'💰', title:'Transparent Pricing', desc:'No hidden costs, no surprise invoices. You get a clear written quote before we start — and we stick to it.' },
                 { icon:'🔒', title:'Full Ownership',      desc:'You own 100% of the source code, database, and deployment. No lock-ins, no strings attached. Everything is yours.' },
-                { icon:'📞', title:'Direct Communication',desc:'You talk directly to the developer building your product — not a project manager in the middle. Faster decisions, better results.' },
+                { icon:'📞', title:'Direct Communication',desc:'You talk directly to the developer building your product. Faster decisions, clearer updates and better results — always.' },
                 { icon:'🧪', title:'Quality Tested',      desc:'Every feature goes through thorough testing before delivery. We catch bugs before your users do — always.' },
                 { icon:'🔄', title:'Post-Launch Support', desc:'We do not disappear after delivery. 60 days of free post-launch support included in every project. We are your long-term partner.' },
               ].map((w, i) => (
@@ -397,6 +442,9 @@ export default function Home() {
                     <li>✦ Topic selection and feasibility check</li>
                     <li>✦ System design and architecture</li>
                     <li>✦ Full implementation support</li>
+                    <li>✦ Arduino, embedded and school projects</li>
+                    <li>✦ Journal and research paper writing</li>
+                    <li>✦ Patent filing assistance</li>
                     <li>✦ Documentation and presentation prep</li>
                     <li>✦ Viva voce coaching</li>
                   </ul>
@@ -572,7 +620,16 @@ export default function Home() {
                     <Reveal key={fb._id} delay={i * 0.08}>
                       <div className="feedback-card">
                         <div className="fc-top">
-                          <div className="fc-avatar">
+                          {fb.photoUrl && fb.photoUrl.trim() !== ''
+                            ? <img
+                                src={fb.photoUrl}
+                                alt={fb.name}
+                                className="fc-avatar-img"
+                                onError={e=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex' }}
+                              />
+                            : null
+                          }
+                          <div className="fc-avatar" style={{display: fb.photoUrl && fb.photoUrl.trim()!=='' ? 'none' : 'flex'}}>
                             {fb.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
                           </div>
                           <div>
@@ -615,7 +672,13 @@ export default function Home() {
 
             {/* ══ CTA ══ */}
       <Reveal>
-        <section className="cta-strip">
+        <section className="cta-strip" style={{
+          backgroundImage:`url('https://plus.unsplash.com/premium_photo-1678566111481-8e275550b700?q=80&w=1200&auto=format&fit=crop')`,
+          backgroundSize:'cover',
+          backgroundPosition:'center',
+          backgroundRepeat:'no-repeat',
+        }}>
+          <div className="cta-bg-overlay"/>
           <h2>Ready to Build<br/>Something <em>Extraordinary?</em></h2>
           <p>Whether it is a web app, mobile app, AI tool, e-commerce platform, academic project, embedded system or hardware build — TechStack delivers with precision.</p>
           <div className="cta-btns">
@@ -634,10 +697,10 @@ export default function Home() {
               <h2>Let us Discuss<br/><em>Your Project.</em></h2>
               <p>Tell us what you want to build. We will come back to you within 24 hours with a clear scope, timeline and pricing. No obligation, no pressure.</p>
               {[
-                { icon:'📧', text:'gayathrim16042006@gmail.com' },
-                { icon:'📞', text:'+91 XXXXX XXXXX (update soon)' },
+                { icon:'📧', text:'techstack@gmail.com' },
+                { icon:'📞', text:'+91 XXXXX XXXXX ' },
                 { icon:'📍', text:'Tirunelveli, Tamil Nadu, India' },
-                { icon:'🕐', text:'Mon to Sat · 9 AM to 7 PM IST' },
+                { icon:'🕐', text:'Adaptable schedule, reliable output' },
                 { icon:'⚡', text:'Response within 24 hours, guaranteed' },
               ].map(c => (
                 <div key={c.text} className="contact-item">
@@ -669,7 +732,14 @@ export default function Home() {
       </section>
 
       {/* ══ FOOTER ══ */}
-      <footer>
+      <footer style={{
+        backgroundImage:`url('https://images.unsplash.com/photo-1735744583287-07e58313f8cf?w=1200&auto=format&fit=crop&q=60')`,
+        backgroundSize:'cover',
+        backgroundPosition:'center',
+        backgroundRepeat:'no-repeat',
+        position:'relative',
+      }}>
+        <div className="footer-bg-overlay"/>
         <div className="foot-brand">
           <div className="nav-logo" style={{marginBottom:'.5rem'}}>
             <span className="nav-logo-gem"/>TechStack

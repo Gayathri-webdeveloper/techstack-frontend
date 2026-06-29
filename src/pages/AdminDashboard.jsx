@@ -102,7 +102,7 @@ export default function AdminDashboard() {
         const { data } = await axios.post(`${API}/api/achievements`, achForm, auth())
         setAchievements(as => [data.achievement, ...as])
       }
-      setAchForm({ title:'',description:'',icon:'🏆',date:'',order:0 })
+      setAchForm({ title:'',description:'',icon:'🏆',date:'',order:0,image:'' })
       setShowAchForm(false); setEditAch(null)
     } catch { alert('Failed to save achievement') }
   }
@@ -113,7 +113,7 @@ export default function AdminDashboard() {
   }
   const editAchievement = (a) => {
     setEditAch(a._id)
-    setAchForm({ title:a.title, description:a.description, icon:a.icon, date:a.date||'', order:a.order||0 })
+    setAchForm({ title:a.title, description:a.description, icon:a.icon, date:a.date||'', order:a.order||0, image:a.image||'' })
     setShowAchForm(true)
   }
   const toggleAchVisible = async (a) => {
@@ -345,6 +345,20 @@ export default function AdminDashboard() {
                     <label>Date / Year</label>
                     <input value={achForm.date} onChange={e=>setAchForm(a=>({...a,date:e.target.value}))} placeholder="e.g. March 2026"/>
                   </div>
+                  <div className="af-field" style={{gridColumn:'1/-1'}}>
+                    <label>Image URL (optional) — paste image link</label>
+                    <input value={achForm.image||''} onChange={e=>setAchForm(a=>({...a,image:e.target.value}))} placeholder="https://images.unsplash.com/... or any direct image URL"/>
+                    {achForm.image && (
+                      <img src={achForm.image} alt="preview"
+                        style={{width:'100%',height:'120px',objectFit:'cover',borderRadius:'6px',marginTop:'.5rem',border:'1px solid rgba(0,200,83,.2)'}}
+                        onError={e=>{e.target.style.display='none'}}
+                        onLoad={e=>{e.target.style.display='block'}}
+                      />
+                    )}
+                    <p style={{fontFamily:'var(--mono)',fontSize:'.62rem',color:'var(--silver3)',marginTop:'.3rem'}}>
+                      Tip: Go to Unsplash/Pexels → right click image → Copy image address → paste here
+                    </p>
+                  </div>
                 </div>
                 <div style={{display:'flex',gap:'.7rem',marginTop:'1rem'}}>
                   <button className="af-btn" onClick={saveAchievement}>{editAch?'Save Changes':'Add Achievement'}</button>
@@ -407,7 +421,13 @@ export default function AdminDashboard() {
                         <td style={{color:'var(--silver3)',fontSize:'.75rem',fontFamily:'var(--mono)'}}>
                           {new Date(fb.createdAt).toLocaleDateString('en-IN')}
                         </td>
-                        <td style={{fontWeight:500}}>{fb.name}</td>
+                        <td style={{fontWeight:500,display:'flex',alignItems:'center',gap:'.5rem'}}>
+                          {fb.photoUrl
+                            ? <img src={fb.photoUrl} alt={fb.name} style={{width:'28px',height:'28px',borderRadius:'50%',objectFit:'cover',border:'1px solid rgba(0,200,83,.3)'}} onError={e=>e.target.style.display='none'}/>
+                            : <div style={{width:'28px',height:'28px',borderRadius:'50%',background:'linear-gradient(135deg,var(--purple3),var(--purple2))',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'.65rem',fontWeight:700,color:'#000',flexShrink:0}}>{fb.name[0]}</div>
+                          }
+                          {fb.name}
+                        </td>
                         <td style={{color:'var(--silver2)',fontSize:'.82rem'}}>{fb.role}</td>
                         <td style={{color:'var(--silver2)',fontSize:'.82rem'}}>{fb.service}</td>
                         <td style={{color:'#FFD700',letterSpacing:'2px'}}>{'★'.repeat(fb.rating)}</td>
