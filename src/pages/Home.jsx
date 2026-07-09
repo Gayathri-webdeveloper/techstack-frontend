@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import Reveal from '../components/Reveal'
 import ContactForm from '../components/ContactForm'
@@ -36,17 +36,214 @@ const STACK = [
 
 const scroll = (id) => document.querySelector(id)?.scrollIntoView({ behavior:'smooth' })
 
-/* ── open link safely bypassing any wrapper click blocking ── */
-const openLink = (url) => {
-  const fullUrl = url.startsWith('http') ? url : `https://${url}`
-  const a = document.createElement('a')
-  a.href = fullUrl
-  a.target = '_blank'
-  a.rel = 'noopener noreferrer'
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
+/* ── Drag-to-scroll service carousel ── */
+function SrvScroll() {
+  const [active, setActive] = useState(0)
+  const total = SERVICES.length
+
+  const prev = () => setActive(i => Math.max(0, i - 1))
+  const next = () => setActive(i => Math.min(total - 1, i + 1))
+
+  // keyboard
+  useEffect(() => {
+    const fn = (e) => {
+      if (e.key === 'ArrowLeft')  prev()
+      if (e.key === 'ArrowRight') next()
+    }
+    window.addEventListener('keydown', fn)
+    return () => window.removeEventListener('keydown', fn)
+  }, [active])
+
+  // touch swipe
+  const tx = useRef(0)
+  const onTS = (e) => { tx.current = e.touches[0].clientX }
+  const onTE = (e) => {
+    const d = tx.current - e.changedTouches[0].clientX
+    if (d > 50)  next()
+    if (d < -50) prev()
+  }
+
+  const CARD_W = 300
+  const GAP    = 20
+
+  return (
+    <div style={{ marginTop: '2rem', position: 'relative' }}
+      onTouchStart={onTS} onTouchEnd={onTE}>
+
+      {/* visible strip */}
+      <div style={{ overflow: 'hidden', width: '100%', padding: '24px 0 12px' }}>
+
+        {/* sliding track */}
+        <div style={{
+          display: 'flex',
+          gap: `${GAP}px`,
+          transform: `translateX(calc(2rem - ${active * (CARD_W + GAP)}px))`,
+          transition: 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)',
+          willChange: 'transform',
+        }}>
+          {SERVICES.map((s, i) => {
+            const on = i === active
+            return (
+              <div
+                key={s.no}
+                onClick={() => setActive(i)}
+                style={{
+                  flexShrink: 0,
+                  width: `${CARD_W}px`,
+                  background: 'var(--bg2)',
+                  border: on
+                    ? '1.5px solid var(--purple2)'
+                    : '1px solid var(--border2)',
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  cursor: 'pointer',
+                  transform: on ? 'scale(1.04)' : 'scale(0.88)',
+                  opacity: on ? 1 : 0.5,
+                  transition: 'transform 0.4s ease, opacity 0.4s ease, border-color 0.3s, box-shadow 0.4s',
+                  boxShadow: on
+                    ? '0 0 40px rgba(0,200,83,0.25), 0 20px 50px rgba(0,0,0,0.5)'
+                    : 'none',
+                  minHeight: '420px',
+                }}
+              >
+                {s.img
+                  ? <img
+                      src={s.img}
+                      alt={s.title}
+                      draggable={false}
+                      loading="lazy"
+                      style={{
+                        width: '100%', height: '170px',
+                        objectFit: 'cover', display: 'block',
+                        flexShrink: 0, pointerEvents: 'none',
+                        filter: on
+                          ? 'brightness(1) saturate(1.2)'
+                          : 'brightness(0.6)',
+                        transition: 'filter 0.4s',
+                      }}
+                    />
+                  : <div style={{
+                      width: '100%', height: '110px',
+                      display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', fontSize: '2.8rem',
+                      background: 'var(--bg3)',
+                      borderBottom: '1px solid var(--border2)',
+                      flexShrink: 0,
+                    }}>{s.icon}</div>
+                }
+                <div style={{
+                  padding: '1.3rem', display: 'flex',
+                  flexDirection: 'column', gap: '0.6rem', flex: 1,
+                }}>
+                  <span style={{
+                    fontFamily: 'var(--mono)', fontSize: '0.63rem',
+                    color: 'var(--purple2)', letterSpacing: '0.1em',
+                  }}>{s.no}</span>
+
+                  <h3 style={{
+                    fontFamily: 'var(--serif)', fontSize: '1.05rem',
+                    fontWeight: 700, lineHeight: 1.2,
+                    color: on ? 'var(--purple2)' : 'var(--white)',
+                    transition: 'color 0.3s',
+                  }}>{s.title}</h3>
+
+                  <p style={{
+                    fontSize: '0.8rem', lineHeight: 1.65,
+                    fontWeight: 300,
+                    color: on ? 'var(--silver)' : 'var(--silver2)',
+                    overflow: 'hidden', display: '-webkit-box',
+                    WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',
+                    flex: 1,
+                  }}>{s.desc}</p>
+
+                  <div style={{
+                    display: 'flex', flexWrap: 'wrap', gap: '0.3rem',
+                    marginTop: 'auto', paddingTop: '0.7rem',
+                    borderTop: '1px solid var(--border2)',
+                  }}>
+                    {s.tags.map(t => (
+                      <span key={t} style={{
+                        padding: '0.15rem 0.55rem',
+                        fontFamily: 'var(--mono)', fontSize: '0.63rem',
+                        border: '1px solid',
+                        borderColor: on
+                          ? 'rgba(0,200,83,0.35)' : 'var(--border2)',
+                        color: on ? 'var(--purple2)' : 'var(--silver3)',
+                        borderRadius: '4px',
+                        transition: 'all 0.3s',
+                      }}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* controls */}
+      <div style={{
+        display: 'flex', alignItems: 'center',
+        justifyContent: 'center', gap: '1rem', marginTop: '0.5rem',
+      }}>
+        <button
+          onClick={prev}
+          disabled={active === 0}
+          style={{
+            width: '42px', height: '42px', borderRadius: '50%',
+            border: '1px solid var(--border)', background: 'var(--bg2)',
+            color: 'var(--purple2)', fontSize: '1.6rem', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            opacity: active === 0 ? 0.25 : 1, transition: 'all 0.2s',
+            lineHeight: 1,
+          }}
+        >&#8249;</button>
+
+        <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+          {SERVICES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              style={{
+                width: i === active ? '22px' : '7px',
+                height: '7px',
+                borderRadius: i === active ? '4px' : '50%',
+                background: i === active
+                  ? 'var(--purple2)' : 'rgba(255,255,255,0.15)',
+                border: 'none', cursor: 'pointer', padding: 0,
+                transition: 'all 0.3s',
+                boxShadow: i === active
+                  ? '0 0 8px rgba(0,200,83,0.5)' : 'none',
+              }}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={next}
+          disabled={active === total - 1}
+          style={{
+            width: '42px', height: '42px', borderRadius: '50%',
+            border: '1px solid var(--border)', background: 'var(--bg2)',
+            color: 'var(--purple2)', fontSize: '1.6rem', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            opacity: active === total - 1 ? 0.25 : 1, transition: 'all 0.2s',
+            lineHeight: 1,
+          }}
+        >&#8250;</button>
+      </div>
+
+      <p style={{
+        textAlign: 'center', fontFamily: 'var(--mono)',
+        fontSize: '0.62rem', color: 'var(--silver3)',
+        letterSpacing: '0.1em', marginTop: '0.5rem',
+      }}>{active + 1} / {total} &nbsp;·&nbsp; swipe or use arrows</p>
+    </div>
+  )
 }
+
 
 export default function Home() {
   const [projects,      setProjects]      = useState([])
@@ -54,6 +251,7 @@ export default function Home() {
   const [feedbacks,     setFeedbacks]     = useState([])
   const [loadingP,      setLoadingP]      = useState(true)
   const [loadingA,      setLoadingA]      = useState(true)
+
 
   useEffect(() => {
     axios.get(`${API}/api/projects`)
@@ -115,7 +313,7 @@ export default function Home() {
           <div className="hero-img-wrap">
             <div className="hero-img-border">
               <img
-                src="https://plus.unsplash.com/premium_photo-1752326185528-2ae789bd1581?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzd8fHRlY2hub2xvZ3klMjBpbWFnZSUyMG9mJTIwY29tcG9uZW50cy0lMjBncmVlbiUyMHRoZW1lfGVufDB8fDB8fHww"
+                src="https://images.unsplash.com/photo-1631375937044-6dd5beac01d2?w=800&auto=format&fit=crop&q=80"
                 alt="TechStack — Engineering Digital Excellence"
                 className="hero-img"
                 loading="lazy"
@@ -147,27 +345,12 @@ export default function Home() {
           <div className="sec-body">
             <Reveal>
               <div className="sec-tag">What We Build</div>
-              <h2 className="sec-h2">Eight Ways We<br/><em>Solve Your Problems</em></h2>
-              <p className="sec-p">From software to hardware — we cover the full spectrum of digital and engineering projects.</p>
+              <h2 className="sec-h2">Ten Ways We<br/><em>Solve Your Problems</em></h2>
+              <p className="sec-p">From software to hardware — scroll sideways through all our services.</p>
             </Reveal>
-            <div className="services-grid">
-              {SERVICES.map((s,i) => (
-                <Reveal key={s.no} delay={i * 0.06}>
-                  <div className="srv-card">
-                    <span className="srv-num">{s.no}</span>
-                    {s.img
-                      ? <img src={s.img} alt={s.title} className="srv-card-img" loading="lazy"/>
-                      : <div className="srv-icon-wrap">{s.icon}</div>
-                    }
-                    <h3>{s.title}</h3>
-                    <p>{s.desc}</p>
-                    <div className="srv-tags">
-                      {s.tags.map(t => <span key={t} className="chip">{t}</span>)}
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+
+            {/* ── Horizontal Scroll Cards with drag support ── */}
+            <SrvScroll/>
           </div>
         </div>
       </section>
@@ -295,21 +478,6 @@ export default function Home() {
               <div className="sec-tag">How We Work</div>
               <h2 className="sec-h2">Clear Process,<br/><em>Zero Surprises</em></h2>
               <p className="sec-p">We believe great software comes from great communication. Here's exactly how every TechStack project runs.</p>
-            </Reveal>
-
-            {/* Process image */}
-            <Reveal delay={0.1}>
-              <div className="process-img-wrap">
-                <img
-                  src="https://images.unsplash.com/photo-1587440871875-191322ee64b0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvY2Vzc3xlbnwwfHwwfHx8MA%3D%3D"
-                  alt="TechStack team working on a project"
-                  className="process-img"
-                  loading="lazy"
-                />
-                <div className="process-img-overlay">
-                  <div className="process-img-tag">◆ How We Build</div>
-                </div>
-              </div>
             </Reveal>
 
             <div className="process-list">
@@ -697,10 +865,10 @@ export default function Home() {
               <h2>Let us Discuss<br/><em>Your Project.</em></h2>
               <p>Tell us what you want to build. We will come back to you within 24 hours with a clear scope, timeline and pricing. No obligation, no pressure.</p>
               {[
-                { icon:'📧', text:'techstack@gmail.com' },
-                { icon:'📞', text:'+91 XXXXX XXXXX ' },
+                { icon:'📧', text:'gayathrim16042006@gmail.com' },
+                { icon:'📞', text:'+91 XXXXX XXXXX (update soon)' },
                 { icon:'📍', text:'Tirunelveli, Tamil Nadu, India' },
-                { icon:'🕐', text:'Adaptable schedule, reliable output' },
+                { icon:'🕐', text:'Mon to Sat · 9 AM to 7 PM IST' },
                 { icon:'⚡', text:'Response within 24 hours, guaranteed' },
               ].map(c => (
                 <div key={c.text} className="contact-item">
@@ -711,7 +879,7 @@ export default function Home() {
               <div style={{marginTop:'2rem',padding:'1.5rem',border:'1px solid var(--border)',borderRadius:'10px',background:'var(--purple-dim)'}}>
                 <div style={{fontFamily:'var(--mono)',fontSize:'.65rem',color:'var(--purple2)',letterSpacing:'.1em',marginBottom:'.75rem'}}>FIND US ON</div>
                 <div style={{display:'flex',gap:'.6rem',flexWrap:'wrap'}}>
-                  {['Instagram','LinkedIn','GitHub'].map(s => (
+                  {['Instagram','GitHub'].map(s => (
                     <a key={s} href="#" className="btn btn-outline" style={{padding:'.4rem 1rem',fontSize:'.72rem'}}>{s}</a>
                   ))}
                 </div>
@@ -747,7 +915,7 @@ export default function Home() {
           <p>Engineering Digital Excellence. Full-stack software and hardware studio based in Tirunelveli, Tamil Nadu. Built to last.</p>
           <div className="foot-loc">📍 Tirunelveli, Tamil Nadu · Est. 2026</div>
           <div className="foot-socials">
-            {['in','X','gh','ig'].map(s => (
+            {['X','gh','ig'].map(s => (
               <a key={s} href="#" className="foot-social">{s}</a>
             ))}
           </div>
