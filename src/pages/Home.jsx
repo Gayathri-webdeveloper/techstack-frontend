@@ -689,7 +689,7 @@ export default function Home() {
                     { label:'Headquarters',  val:'Tirunelveli, Tamil Nadu' },
                     { label:'Service Area',  val:'Pan India · Remote Worldwide' },
                     { label:'Speciality',    val:'Web · Mobile · AI · Hardware · Embedded' },
-                    { label:'Email',         val:'gayathrim16042006@gmail.com' },
+                    { label:'Email',         val:'balaganesh010@gmail.com' },
                     { label:'Response Time', val:'Within 24 Hours' },
                     { label:'Languages',     val:'Tamil · English' },
                   ].map(r => (
@@ -865,10 +865,10 @@ export default function Home() {
               <h2>Let us Discuss<br/><em>Your Project.</em></h2>
               <p>Tell us what you want to build. We will come back to you within 24 hours with a clear scope, timeline and pricing. No obligation, no pressure.</p>
               {[
-                { icon:'📧', text:'gayathrim16042006@gmail.com' },
+                { icon:'📧', text:'balaganesh010@gmail.com' },
                 { icon:'📞', text:'+91 XXXXX XXXXX (update soon)' },
                 { icon:'📍', text:'Tirunelveli, Tamil Nadu, India' },
-                { icon:'🕐', text:'Mon to Sat · 9 AM to 7 PM IST' },
+                { icon:'🕐', text:'Flexible & Adaptable — We work around your schedule' },
                 { icon:'⚡', text:'Response within 24 hours, guaranteed' },
               ].map(c => (
                 <div key={c.text} className="contact-item">
@@ -947,7 +947,7 @@ export default function Home() {
         <div className="foot-col">
           <h4>Contact</h4>
           <ul>
-            <li><a href="mailto:gayathrim16042006@gmail.com">gayathrim16042006@gmail.com</a></li>
+            <li><a href="mailto:balaganesh010@gmail.com">balaganesh010@gmail.com</a></li>
             <li><a href="#">+91 XXXXX XXXXX</a></li>
             <li><a href="#">Tirunelveli, TN</a></li>
             <li><a href="/admin">Admin Panel</a></li>
