@@ -39,7 +39,9 @@ const scroll = (id) => document.querySelector(id)?.scrollIntoView({ behavior:'sm
 /* ── Drag-to-scroll service carousel ── */
 function SrvScroll() {
   const [active, setActive] = useState(0)
-  const total = SERVICES.length
+  const total   = SERVICES.length
+  const CARD_W  = 280
+  const GAP     = 20
 
   const prev = () => setActive(i => Math.max(0, i - 1))
   const next = () => setActive(i => Math.min(total - 1, i + 1))
@@ -63,117 +65,69 @@ function SrvScroll() {
     if (d < -50) prev()
   }
 
-  const CARD_W = 300
-  const GAP    = 20
-
   return (
-    <div style={{ marginTop: '2rem', position: 'relative' }}
-      onTouchStart={onTS} onTouchEnd={onTE}>
+    <div 
+    style={{
+    width: "100%",
+    maxWidth: "1200px",
+    margin: "0 auto",
+    padding: "0 20px",
+    marginTop: "2rem",
+  }}
+  onTouchStart={onTS}
+  onTouchEnd={onTE}
+    
+    >
 
-      {/* visible strip */}
-      <div style={{ overflow: 'hidden', width: '100%', padding: '24px 0 12px' }}>
-
-        {/* sliding track */}
+      {/* ── Cards strip ── */}
+      <div style={{ overflow: 'hidden', width: '100%', padding: '16px 0' }}>
         <div style={{
           display: 'flex',
           gap: `${GAP}px`,
-          transform: `translateX(calc(2rem - ${active * (CARD_W + GAP)}px))`,
+          transform: `translateX(calc(1.5rem - ${active * (CARD_W + GAP)}px))`,
           transition: 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)',
           willChange: 'transform',
         }}>
           {SERVICES.map((s, i) => {
             const on = i === active
             return (
-              <div
-                key={s.no}
-                onClick={() => setActive(i)}
-                style={{
-                  flexShrink: 0,
-                  width: `${CARD_W}px`,
-                  background: 'var(--bg2)',
-                  border: on
-                    ? '1.5px solid var(--purple2)'
-                    : '1px solid var(--border2)',
-                  borderRadius: '14px',
-                  overflow: 'hidden',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  cursor: 'pointer',
-                  transform: on ? 'scale(1.04)' : 'scale(0.88)',
-                  opacity: on ? 1 : 0.5,
-                  transition: 'transform 0.4s ease, opacity 0.4s ease, border-color 0.3s, box-shadow 0.4s',
-                  boxShadow: on
-                    ? '0 0 40px rgba(0,200,83,0.25), 0 20px 50px rgba(0,0,0,0.5)'
-                    : 'none',
-                  minHeight: '420px',
-                }}
-              >
+              <div key={s.no} onClick={() => setActive(i)} style={{
+                flexShrink: 0,
+                width: `${CARD_W}px`,
+                minHeight: '300px',
+                background: 'var(--bg2)',
+                border: on ? '1.5px solid var(--purple2)' : '1px solid var(--border2)',
+                borderRadius: '14px',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                cursor: 'pointer',
+                transform: on ? 'scale(1.04)' : 'scale(0.88)',
+                opacity: on ? 1 : 0.5,
+                transition: 'transform 0.4s ease, opacity 0.4s ease, border-color 0.3s, box-shadow 0.4s',
+                boxShadow: on ? '0 0 40px rgba(0,200,83,0.25),0 20px 50px rgba(0,0,0,0.5)' : 'none',
+              }}>
                 {s.img
-                  ? <img
-                      src={s.img}
-                      alt={s.title}
-                      draggable={false}
-                      loading="lazy"
-                      style={{
-                        width: '100%', height: '170px',
-                        objectFit: 'cover', display: 'block',
-                        flexShrink: 0, pointerEvents: 'none',
-                        filter: on
-                          ? 'brightness(1) saturate(1.2)'
-                          : 'brightness(0.6)',
-                        transition: 'filter 0.4s',
-                      }}
-                    />
+                  ? <img src={s.img} alt={s.title} draggable={false} loading="lazy" style={{
+                      width:'100%', height:'130px', objectFit:'cover',
+                      display:'block', flexShrink:0, pointerEvents:'none',
+                      filter: on ? 'brightness(1) saturate(1.2)' : 'brightness(0.6)',
+                      transition:'filter 0.4s',
+                    }}/>
                   : <div style={{
-                      width: '100%', height: '110px',
-                      display: 'flex', alignItems: 'center',
-                      justifyContent: 'center', fontSize: '2.8rem',
-                      background: 'var(--bg3)',
-                      borderBottom: '1px solid var(--border2)',
-                      flexShrink: 0,
+                      width:'100%', height:'90px', display:'flex',
+                      alignItems:'center', justifyContent:'center',
+                      fontSize:'2.5rem', background:'var(--bg3)',
+                      borderBottom:'1px solid var(--border2)', flexShrink:0,
                     }}>{s.icon}</div>
                 }
-                <div style={{
-                  padding: '1.3rem', display: 'flex',
-                  flexDirection: 'column', gap: '0.6rem', flex: 1,
-                }}>
-                  <span style={{
-                    fontFamily: 'var(--mono)', fontSize: '0.63rem',
-                    color: 'var(--purple2)', letterSpacing: '0.1em',
-                  }}>{s.no}</span>
-
-                  <h3 style={{
-                    fontFamily: 'var(--serif)', fontSize: '1.05rem',
-                    fontWeight: 700, lineHeight: 1.2,
-                    color: on ? 'var(--purple2)' : 'var(--white)',
-                    transition: 'color 0.3s',
-                  }}>{s.title}</h3>
-
-                  <p style={{
-                    fontSize: '0.8rem', lineHeight: 1.65,
-                    fontWeight: 300,
-                    color: on ? 'var(--silver)' : 'var(--silver2)',
-                    overflow: 'hidden', display: '-webkit-box',
-                    WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',
-                    flex: 1,
-                  }}>{s.desc}</p>
-
-                  <div style={{
-                    display: 'flex', flexWrap: 'wrap', gap: '0.3rem',
-                    marginTop: 'auto', paddingTop: '0.7rem',
-                    borderTop: '1px solid var(--border2)',
-                  }}>
-                    {s.tags.map(t => (
-                      <span key={t} style={{
-                        padding: '0.15rem 0.55rem',
-                        fontFamily: 'var(--mono)', fontSize: '0.63rem',
-                        border: '1px solid',
-                        borderColor: on
-                          ? 'rgba(0,200,83,0.35)' : 'var(--border2)',
-                        color: on ? 'var(--purple2)' : 'var(--silver3)',
-                        borderRadius: '4px',
-                        transition: 'all 0.3s',
-                      }}>{t}</span>
+                <div style={{padding:'1rem', display:'flex', flexDirection:'column', gap:'0.4rem', flex:1}}>
+                  <span style={{fontFamily:'var(--mono)', fontSize:'0.63rem', color:'var(--purple2)', letterSpacing:'0.1em'}}>{s.no}</span>
+                  <h3 style={{fontFamily:'var(--serif)', fontSize:'1rem', fontWeight:700, lineHeight:1.2, color: on ? 'var(--purple2)' : 'var(--white)', transition:'color 0.3s'}}>{s.title}</h3>
+                  <p style={{fontSize:'0.78rem', lineHeight:1.6, fontWeight:300, color: on ? 'var(--silver)' : 'var(--silver2)', overflow:'hidden', display:'-webkit-box', WebkitLineClamp:3, WebkitBoxOrient:'vertical', flex:1}}>{s.desc}</p>
+                  <div style={{display:'flex', flexWrap:'wrap', gap:'0.3rem', marginTop:'auto', paddingTop:'0.6rem', borderTop:'1px solid var(--border2)'}}>
+                    {s.tags.map(t=>(
+                      <span key={t} style={{padding:'0.12rem 0.5rem', fontFamily:'var(--mono)', fontSize:'0.6rem', border:'1px solid', borderColor: on ? 'rgba(0,200,83,0.35)' : 'var(--border2)', color: on ? 'var(--purple2)' : 'var(--silver3)', borderRadius:'4px', transition:'all 0.3s'}}>{t}</span>
                     ))}
                   </div>
                 </div>
@@ -183,63 +137,80 @@ function SrvScroll() {
         </div>
       </div>
 
-      {/* controls */}
-      <div style={{
-        display: 'flex', alignItems: 'center',
-        justifyContent: 'center', gap: '1rem', marginTop: '0.5rem',
-      }}>
-        <button
-          onClick={prev}
-          disabled={active === 0}
-          style={{
-            width: '42px', height: '42px', borderRadius: '50%',
-            border: '1px solid var(--border)', background: 'var(--bg2)',
-            color: 'var(--purple2)', fontSize: '1.6rem', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            opacity: active === 0 ? 0.25 : 1, transition: 'all 0.2s',
-            lineHeight: 1,
-          }}
-        >&#8249;</button>
+      {/* ── Nav — perfectly centered using text-align ── */}
+      <div style={{ textAlign: 'center', marginTop: '1.2rem' }}>
 
-        <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
-          {SERVICES.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              style={{
-                width: i === active ? '22px' : '7px',
-                height: '7px',
-                borderRadius: i === active ? '4px' : '50%',
-                background: i === active
-                  ? 'var(--purple2)' : 'rgba(255,255,255,0.15)',
+        {/* buttons row */}
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '1rem',
+          background: 'var(--bg2)',
+          border: '1px solid var(--border)',
+          borderRadius: '100px',
+          padding: '0.5rem 1rem',
+        }}>
+
+          {/* PREV */}
+          <button onClick={prev} disabled={active===0} style={{
+            padding: '0.5rem 1.1rem',
+            borderRadius: '100px',
+            border: 'none',
+            background: active===0 ? 'transparent' : 'var(--purple)',
+            color: active===0 ? 'var(--silver3)' : '#000',
+            fontSize: '0.85rem', fontWeight: 700,
+            cursor: active===0 ? 'not-allowed' : 'pointer',
+            opacity: active===0 ? 0.35 : 1,
+            transition: 'all 0.25s',
+            fontFamily: 'var(--sans)',
+            WebkitTapHighlightColor: 'transparent',
+            touchAction: 'manipulation',
+            whiteSpace: 'nowrap',
+            boxShadow: active===0 ? 'none' : '0 2px 12px rgba(0,200,83,0.3)',
+          }}>‹ Prev</button>
+
+          {/* DOTS */}
+          <div style={{display:'flex', gap:'5px', alignItems:'center'}}>
+            {SERVICES.map((_,i)=>(
+              <button key={i} onClick={()=>setActive(i)} style={{
+                width: i===active ? '22px' : '8px',
+                height: '8px',
+                borderRadius: i===active ? '4px' : '50%',
+                background: i===active ? 'var(--purple2)' : 'rgba(255,255,255,0.2)',
                 border: 'none', cursor: 'pointer', padding: 0,
                 transition: 'all 0.3s',
-                boxShadow: i === active
-                  ? '0 0 8px rgba(0,200,83,0.5)' : 'none',
-              }}
-            />
-          ))}
+                boxShadow: i===active ? '0 0 8px rgba(0,200,83,0.6)' : 'none',
+                WebkitTapHighlightColor: 'transparent',
+              }}/>
+            ))}
+          </div>
+
+          {/* NEXT */}
+          <button onClick={next} disabled={active===total-1} style={{
+            padding: '0.5rem 1.1rem',
+            borderRadius: '100px',
+            border: 'none',
+            background: active===total-1 ? 'transparent' : 'var(--purple)',
+            color: active===total-1 ? 'var(--silver3)' : '#000',
+            fontSize: '0.85rem', fontWeight: 700,
+            cursor: active===total-1 ? 'not-allowed' : 'pointer',
+            opacity: active===total-1 ? 0.35 : 1,
+            transition: 'all 0.25s',
+            fontFamily: 'var(--sans)',
+            WebkitTapHighlightColor: 'transparent',
+            touchAction: 'manipulation',
+            whiteSpace: 'nowrap',
+            boxShadow: active===total-1 ? 'none' : '0 2px 12px rgba(0,200,83,0.3)',
+          }}>Next ›</button>
+
         </div>
 
-        <button
-          onClick={next}
-          disabled={active === total - 1}
-          style={{
-            width: '42px', height: '42px', borderRadius: '50%',
-            border: '1px solid var(--border)', background: 'var(--bg2)',
-            color: 'var(--purple2)', fontSize: '1.6rem', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            opacity: active === total - 1 ? 0.25 : 1, transition: 'all 0.2s',
-            lineHeight: 1,
-          }}
-        >&#8250;</button>
+        {/* counter */}
+        <div style={{marginTop:'0.5rem', fontFamily:'var(--mono)', fontSize:'0.62rem', color:'var(--silver3)'}}>
+          <span style={{color:'var(--purple2)'}}>{SERVICES[active].title}</span>
+          <span style={{opacity:0.4}}> · {active+1}/{total}</span>
+        </div>
       </div>
-
-      <p style={{
-        textAlign: 'center', fontFamily: 'var(--mono)',
-        fontSize: '0.62rem', color: 'var(--silver3)',
-        letterSpacing: '0.1em', marginTop: '0.5rem',
-      }}>{active + 1} / {total} &nbsp;·&nbsp; swipe or use arrows</p>
     </div>
   )
 }
