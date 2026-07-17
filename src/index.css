@@ -3040,13 +3040,65 @@ footer .foot-bottom {
   border-top: 1px solid var(--border2);
 }
 
+/* ── RESPONSIVE ── */
+/* Tablet: 2 columns */
 @media(max-width: 960px) {
   .srv-desktop-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* Mobile: hide grid, show carousel */
 @media(max-width: 640px) {
   .srv-desktop-grid   { display: none !important; }
   .srv-mobile-carousel { display: block !important; }
+}
+
+/* ── Mobile carousel centering wrapper ── */
+.srv-mobile-outer {
+  overflow: hidden;
+  padding: 16px 0;
+  width: 100%;
+}
+.srv-mobile-track {
+  display: flex;
+  gap: 16px;
+  transition: transform 0.45s cubic-bezier(0.25,1,0.5,1);
+  will-change: transform;
+}
+/* Mobile carousel card — full width minus equal margins */
+.srv-mob-card {
+  width: calc(100vw - 48px) !important;
+  margin-left: 0;
+}
+
+/* ── Mobile card full width fix ── */
+@media(max-width: 640px) {
+  .srv-mob-card {
+    width: calc(100vw - 48px) !important;
+    flex-shrink: 0;
+  }
+  .srv-mobile-track {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* ── Equal spacing around mobile service cards ── */
+@media(max-width: 640px) {
+  .srv-mobile-carousel {
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+  .srv-mob-card {
+    width: 100% !important;
+    flex-shrink: 0;
+  }
+  .srv-mobile-outer {
+    padding: 16px 0 !important;
+  }
+  .srv-mobile-track {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
