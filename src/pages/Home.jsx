@@ -41,7 +41,7 @@ function SrvScroll() {
   const [active, setActive] = useState(0)
   const total  = SERVICES.length
   const CARD_W = 280
-  const GAP    = 20
+  const GAP    = 16
 
   const prev = () => setActive(i => Math.max(0, i - 1))
   const next = () => setActive(i => Math.min(total - 1, i + 1))
@@ -89,7 +89,9 @@ function SrvScroll() {
 
         <div className="srv-mobile-outer">
           <div className="srv-mobile-track" style={{
-            transform: `translateX(calc(-${active*(CARD_W+GAP)}px))`,
+            paddingLeft: '24px',
+            paddingRight: '24px',
+            transform: `translateX(calc(-${active} * (100vw - 32px)))`,
           }}>
           {SERVICES.map((s, i) => {
             const on = i === active
