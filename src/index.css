@@ -3083,3 +3083,22 @@ footer .foot-bottom {
     padding-right: 24px !important;
   }
 }
+
+/* ── Equal spacing around mobile service cards ── */
+@media(max-width: 640px) {
+  .srv-mobile-carousel {
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+  .srv-mob-card {
+    width: 100% !important;
+    flex-shrink: 0;
+  }
+  .srv-mobile-outer {
+    padding: 16px 0 !important;
+  }
+  .srv-mobile-track {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
