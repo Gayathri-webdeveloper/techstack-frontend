@@ -3056,49 +3056,17 @@ footer .foot-bottom {
 
 /* ── Mobile carousel centering wrapper ── */
 .srv-mobile-outer {
+  display: flex;
+  justify-content: center;
   overflow: hidden;
   padding: 16px 0;
-  width: 100%;
 }
 .srv-mobile-track {
   display: flex;
-  gap: 16px;
+  gap: 20px;
   transition: transform 0.45s cubic-bezier(0.25,1,0.5,1);
   will-change: transform;
-}
-/* Mobile carousel card — full width minus equal margins */
-.srv-mob-card {
-  width: calc(100vw - 48px) !important;
-  margin-left: 0;
-}
-
-/* ── Mobile card full width fix ── */
-@media(max-width: 640px) {
-  .srv-mob-card {
-    width: calc(100vw - 48px) !important;
-    flex-shrink: 0;
-  }
-  .srv-mobile-track {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
-  }
-}
-
-/* ── Equal spacing around mobile service cards ── */
-@media(max-width: 640px) {
-  .srv-mobile-carousel {
-    padding: 0 16px;
-    box-sizing: border-box;
-  }
-  .srv-mob-card {
-    width: 100% !important;
-    flex-shrink: 0;
-  }
-  .srv-mobile-outer {
-    padding: 16px 0 !important;
-  }
-  .srv-mobile-track {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
+  /* first card gets left padding so it appears centered */
+  padding-left: calc(50vw - 140px);
+  padding-right: calc(50vw - 140px);
 }
