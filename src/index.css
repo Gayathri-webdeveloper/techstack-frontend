@@ -453,7 +453,7 @@ tr:hover td{background:rgba(0,200,83,.03);}
 /* ── WHY CHOOSE US ── */
 .why-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.2rem;
   margin-top: 3rem;
 }
@@ -889,7 +889,7 @@ tr:hover td{background:rgba(0,200,83,.03);}
 /* ── Feedback Cards Grid ── */
 .feedback-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin-top: 2rem;
 }
@@ -2848,4 +2848,208 @@ footer .foot-bottom {
   overflow-x: hidden;
   position: relative;
   width: 100%;
+}
+
+/* ══════════════════════════════════════
+   SERVICES — Desktop Grid + Mobile Carousel
+   ══════════════════════════════════════ */
+
+/* ── Desktop Grid (3 columns like Why Us) ── */
+.srv-desktop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin-top: 2.5rem;
+}
+
+.srv-grid-card {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
+  position: relative;
+}
+.srv-grid-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--purple2), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+.srv-grid-card:hover {
+  border-color: var(--border);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,200,83,0.12);
+  background: var(--bg3);
+}
+.srv-grid-card:hover::before { transform: scaleX(1); }
+
+.srv-grid-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.8) saturate(1.1);
+  transition: filter 0.4s, transform 0.4s;
+}
+.srv-grid-card:hover .srv-grid-img {
+  filter: brightness(1) saturate(1.2);
+  transform: scale(1.03);
+}
+
+.srv-grid-icon {
+  font-size: 2rem;
+  padding: 1.5rem 1.5rem 0;
+}
+
+.srv-grid-num {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--purple2);
+  letter-spacing: 0.1em;
+  padding: 1rem 1.5rem 0;
+}
+
+.srv-grid-card h3 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--white);
+  padding: 0.4rem 1.5rem 0;
+  line-height: 1.2;
+  transition: color 0.3s;
+}
+.srv-grid-card:hover h3 { color: var(--purple2); }
+
+.srv-grid-card p {
+  font-size: 0.82rem;
+  color: var(--silver2);
+  line-height: 1.65;
+  font-weight: 300;
+  padding: 0.5rem 1.5rem 0;
+  flex: 1;
+}
+
+.srv-grid-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.8rem 1.5rem 1.2rem;
+  border-top: 1px solid var(--border2);
+  margin-top: 0.8rem;
+}
+
+/* ── Mobile Carousel (hidden on desktop) ── */
+.srv-mobile-carousel { display: none; }
+
+/* ── Mobile Track ── */
+.srv-mobile-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.45s cubic-bezier(0.25,1,0.5,1);
+  will-change: transform;
+  padding: 16px 0;
+}
+
+/* Mobile Cards */
+.srv-mob-card {
+  flex-shrink: 0;
+  width: 280px;
+  min-height: 300px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transform: scale(0.88);
+  opacity: 0.5;
+  transition: transform 0.4s ease, opacity 0.4s ease, border-color 0.3s, box-shadow 0.4s;
+}
+.srv-mob-card.srv-mob-active {
+  transform: scale(1.04) !important;
+  opacity: 1 !important;
+  border-color: var(--purple2);
+  box-shadow: 0 0 40px rgba(0,200,83,0.25), 0 20px 50px rgba(0,0,0,0.5);
+}
+.srv-mob-img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
+  transition: filter 0.4s;
+}
+.srv-mob-icon {
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border2);
+  flex-shrink: 0;
+}
+.srv-mob-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+.srv-mob-num {
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  color: var(--purple2);
+  letter-spacing: 0.1em;
+}
+.srv-mob-card h3 {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  transition: color 0.3s;
+}
+.srv-mob-card p {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  font-weight: 300;
+  color: var(--silver2);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  flex: 1;
+}
+.srv-mob-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: auto;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border2);
+}
+
+/* ── RESPONSIVE ── */
+/* Tablet: 2 columns */
+@media(max-width: 960px) {
+  .srv-desktop-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: hide grid, show carousel */
+@media(max-width: 640px) {
+  .srv-desktop-grid   { display: none !important; }
+  .srv-mobile-carousel { display: block !important; }
 }
