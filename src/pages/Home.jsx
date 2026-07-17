@@ -87,9 +87,10 @@ function SrvScroll() {
       <div className="srv-mobile-carousel"
         onTouchStart={onTS} onTouchEnd={onTE}>
 
-        <div className="srv-mobile-track" style={{
-          transform: `translateX(calc(50vw - ${CARD_W/2}px - ${active*(CARD_W+GAP)}px))`,
-        }}>
+        <div className="srv-mobile-outer">
+          <div className="srv-mobile-track" style={{
+            transform: `translateX(calc(-${active*(CARD_W+GAP)}px))`,
+          }}>
           {SERVICES.map((s, i) => {
             const on = i === active
             return (
@@ -112,6 +113,7 @@ function SrvScroll() {
               </div>
             )
           })}
+          </div>
         </div>
 
         {/* Mobile nav */}
