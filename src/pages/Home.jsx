@@ -39,9 +39,7 @@ const scroll = (id) => document.querySelector(id)?.scrollIntoView({ behavior:'sm
 /* ── Drag-to-scroll service carousel ── */
 function SrvScroll() {
   const [active, setActive] = useState(0)
-  const total  = SERVICES.length
-  const CARD_W = 280
-  const GAP    = 16
+  const total = SERVICES.length
 
   const prev = () => setActive(i => Math.max(0, i - 1))
   const next = () => setActive(i => Math.min(total - 1, i + 1))
@@ -55,19 +53,20 @@ function SrvScroll() {
     return () => window.removeEventListener('keydown', fn)
   }, [active])
 
+  // touch swipe
   const tx = useRef(0)
   const onTS = (e) => { tx.current = e.touches[0].clientX }
   const onTE = (e) => {
     const d = tx.current - e.changedTouches[0].clientX
-    if (d > 50)  next()
-    if (d < -50) prev()
+    if (d > 40)  next()
+    if (d < -40) prev()
   }
 
   return (
     <>
-      {/* ── DESKTOP: grid layout (hidden on mobile) ── */}
+      {/* ── DESKTOP: 2-column grid ── */}
       <div className="srv-desktop-grid">
-        {SERVICES.map((s, i) => (
+        {SERVICES.map((s) => (
           <div key={s.no} className="srv-grid-card">
             {s.img
               ? <img src={s.img} alt={s.title} className="srv-grid-img" loading="lazy"/>
@@ -83,86 +82,56 @@ function SrvScroll() {
         ))}
       </div>
 
-      {/* ── MOBILE: horizontal scroll carousel (hidden on desktop) ── */}
-      <div className="srv-mobile-carousel"
+      {/* ── MOBILE: clean horizontal scroll ── */}
+      <div className="srv-mob-wrap"
         onTouchStart={onTS} onTouchEnd={onTE}>
 
-        <div className="srv-mobile-outer">
-          <div className="srv-mobile-track" style={{
-            paddingLeft: '24px',
-            paddingRight: '24px',
-            transform: `translateX(calc(-${active} * (100vw - 32px)))`,
-          }}>
+        {/* sliding track */}
+        <div className="srv-mob-track"
+          style={{ transform: `translateX(calc(-${active * 100}%))` }}>
           {SERVICES.map((s, i) => {
             const on = i === active
             return (
-              <div key={s.no} className={`srv-mob-card${on?' srv-mob-active':''}`}
+              <div key={s.no} className={`srv-mob-slide${on ? ' active' : ''}`}
                 onClick={() => setActive(i)}>
                 {s.img
-                  ? <img src={s.img} alt={s.title} className="srv-mob-img"
-                      draggable={false} loading="lazy"
-                      style={{filter: on?'brightness(1)':'brightness(0.6)'}}/>
-                  : <div className="srv-mob-icon">{s.icon}</div>
+                  ? <img src={s.img} alt={s.title} className="srv-mob-slide-img"
+                      draggable={false} loading="lazy"/>
+                  : <div className="srv-mob-slide-icon">{s.icon}</div>
                 }
-                <div className="srv-mob-body">
-                  <span className="srv-mob-num">{s.no}</span>
-                  <h3 style={{color: on?'var(--purple2)':'var(--white)'}}>{s.title}</h3>
+                <div className="srv-mob-slide-body">
+                  <span className="srv-mob-slide-num">{s.no}</span>
+                  <h3>{s.title}</h3>
                   <p>{s.desc}</p>
-                  <div className="srv-mob-tags">
-                    {s.tags.map(t=><span key={t} className="chip">{t}</span>)}
+                  <div className="srv-mob-slide-tags">
+                    {s.tags.map(t => <span key={t} className="chip">{t}</span>)}
                   </div>
                 </div>
               </div>
             )
           })}
-          </div>
         </div>
 
-        {/* Mobile nav */}
-        <div style={{textAlign:'center', marginTop:'1rem'}}>
-          <div style={{
-            display:'inline-flex', alignItems:'center', gap:'0.7rem',
-            background:'var(--bg2)', border:'1px solid var(--border)',
-            borderRadius:'100px', padding:'0.4rem 0.7rem',
-          }}>
-            <button onClick={prev} disabled={active===0} style={{
-              padding:'0.4rem 0.9rem', borderRadius:'100px', border:'none',
-              background: active===0?'transparent':'var(--purple)',
-              color: active===0?'var(--silver3)':'#000',
-              fontSize:'0.82rem', fontWeight:700,
-              cursor: active===0?'not-allowed':'pointer',
-              opacity: active===0?0.3:1, transition:'all 0.25s',
-              fontFamily:'var(--sans)', WebkitTapHighlightColor:'transparent',
-            }}>‹ Prev</button>
-
-            <div style={{display:'flex',gap:'4px',alignItems:'center'}}>
-              {SERVICES.map((_,i)=>(
-                <button key={i} onClick={()=>setActive(i)} style={{
-                  width: i===active?'18px':'6px', height:'6px',
-                  borderRadius: i===active?'3px':'50%',
-                  background: i===active?'var(--purple2)':'rgba(255,255,255,0.2)',
-                  border:'none', cursor:'pointer', padding:0,
-                  transition:'all 0.3s',
-                  WebkitTapHighlightColor:'transparent',
-                }}/>
-              ))}
-            </div>
-
-            <button onClick={next} disabled={active===total-1} style={{
-              padding:'0.4rem 0.9rem', borderRadius:'100px', border:'none',
-              background: active===total-1?'transparent':'var(--purple)',
-              color: active===total-1?'var(--silver3)':'#000',
-              fontSize:'0.82rem', fontWeight:700,
-              cursor: active===total-1?'not-allowed':'pointer',
-              opacity: active===total-1?0.3:1, transition:'all 0.25s',
-              fontFamily:'var(--sans)', WebkitTapHighlightColor:'transparent',
-            }}>Next ›</button>
-          </div>
-          <div style={{marginTop:'0.4rem',fontFamily:'var(--mono)',fontSize:'0.6rem',color:'var(--silver3)'}}>
-            <span style={{color:'var(--purple2)'}}>{SERVICES[active].title}</span>
-            <span style={{opacity:0.4}}> · {active+1}/{total}</span>
-          </div>
+        {/* dots + counter */}
+        <div className="srv-mob-dots">
+          {SERVICES.map((_, i) => (
+            <button key={i} onClick={() => setActive(i)}
+              className={`srv-mob-dot${i === active ? ' on' : ''}`}/>
+          ))}
         </div>
+        <div className="srv-mob-counter">
+          <span>{SERVICES[active].title}</span>
+          <span className="srv-mob-count-num"> · {active + 1}/{total}</span>
+        </div>
+
+        {/* prev / next */}
+        <div className="srv-mob-nav">
+          <button onClick={prev} disabled={active === 0}
+            className="srv-mob-nav-btn">‹ Prev</button>
+          <button onClick={next} disabled={active === total - 1}
+            className="srv-mob-nav-btn">Next ›</button>
+        </div>
+
       </div>
     </>
   )
