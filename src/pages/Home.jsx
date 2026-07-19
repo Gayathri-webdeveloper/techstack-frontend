@@ -94,17 +94,19 @@ function SrvScroll() {
             return (
               <div key={s.no} className={`srv-mob-slide${on ? ' active' : ''}`}
                 onClick={() => setActive(i)}>
-                {s.img
-                  ? <img src={s.img} alt={s.title} className="srv-mob-slide-img"
-                      draggable={false} loading="lazy"/>
-                  : <div className="srv-mob-slide-icon">{s.icon}</div>
-                }
-                <div className="srv-mob-slide-body">
-                  <span className="srv-mob-slide-num">{s.no}</span>
-                  <h3>{s.title}</h3>
-                  <p>{s.desc}</p>
-                  <div className="srv-mob-slide-tags">
-                    {s.tags.map(t => <span key={t} className="chip">{t}</span>)}
+                <div className="srv-mob-slide-card">
+                  {s.img
+                    ? <img src={s.img} alt={s.title} className="srv-mob-slide-img"
+                        draggable={false} loading="lazy"/>
+                    : <div className="srv-mob-slide-icon">{s.icon}</div>
+                  }
+                  <div className="srv-mob-slide-body">
+                    <span className="srv-mob-slide-num">{s.no}</span>
+                    <h3>{s.title}</h3>
+                    <p>{s.desc}</p>
+                    <div className="srv-mob-slide-tags">
+                      {s.tags.map(t => <span key={t} className="chip">{t}</span>)}
+                    </div>
                   </div>
                 </div>
               </div>
