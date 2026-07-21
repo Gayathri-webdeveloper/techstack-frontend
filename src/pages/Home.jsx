@@ -7,16 +7,16 @@ import FeedbackForm from '../components/FeedbackForm'
 const API = import.meta.env.VITE_API_URL || ''
 
 const SERVICES = [
-  { no:'01', icon:'🌐', img:'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=500&auto=format&fit=crop&q=60', title:'Web Development', desc:'Custom full-stack web applications — dashboards, portals, SaaS products and business websites built with modern MERN stack for speed and scale.', tags:['React','Node.js','MongoDB','Express'] },
-  { no:'02', icon:'📱', img:'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=500&auto=format&fit=crop&q=60', title:'Mobile App Development', desc:'Cross-platform mobile apps for iOS and Android from a single clean codebase. Smooth, native-feeling apps that users love.', tags:['React Native','Expo'] },
-  { no:'03', icon:'🤖', img:'https://plus.unsplash.com/premium_photo-1676637656166-cb7b3a43b81a?w=500&auto=format&fit=crop&q=60', title:'AI & Automation', desc:'Integrate AI into your business — smart chatbots, document processing, workflow automation and intelligent data pipelines powered by LLMs.', tags:['OpenAI','LangChain','Python'] },
-  { no:'04', icon:'🛒', img:'https://images.unsplash.com/photo-1732258357159-599cd37a5b8a?w=500&auto=format&fit=crop&q=60', title:'E-Commerce Platforms', desc:'Custom online stores with payment gateway integration, inventory management, order tracking and seller dashboards tailored to your business.', tags:['Next.js','Stripe','Razorpay'] },
-  { no:'05', icon:'🎓', img:'https://images.unsplash.com/photo-1572177812156-58036aae439c?w=500&auto=format&fit=crop&q=60', title:'Academic & School Projects', desc:'Final-year engineering projects, school science projects and Arduino-based embedded projects — from concept to completion, fully documented and presentation-ready.', tags:['All Stacks','Arduino','Documentation','Guidance'] },
-  { no:'06', icon:'🎨', img:'https://images.unsplash.com/photo-1618788372246-79faff0c3742?w=500&auto=format&fit=crop&q=60', title:'UI/UX Design', desc:'Clean, modern interfaces that look premium and feel intuitive — wireframes, prototypes and pixel-perfect design systems.', tags:['Figma','Prototyping','Design Systems'] },
-  { no:'07', icon:'🔌', img:'https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=500&auto=format&fit=crop&q=60', title:'Embedded & Arduino Projects', desc:'Microcontroller-based project development — IoT systems, sensor integration, Arduino/Raspberry Pi/ESP32 projects and firmware programming for students and industries.', tags:['Arduino','Raspberry Pi','ESP32','IoT','C/C++'] },
-  { no:'08', icon:'🔧', img:'https://plus.unsplash.com/premium_photo-1683120972279-87efe2ba252f?w=500&auto=format&fit=crop&q=60', title:'Hardware Projects', desc:'End-to-end hardware project development — circuit design, PCB layout and physical prototyping for academic and industrial applications.', tags:['PCB Design','Prototyping','Circuit Design'] },
-  { no:'09', icon:'📄', img:'https://images.unsplash.com/photo-1570929057588-6952f7dd2305?w=500&auto=format&fit=crop&q=60', title:'Journal & Research Papers', desc:'We help students and researchers write, format and publish IEEE/Scopus/UGC journal papers and research articles — topic selection to final submission.', tags:['IEEE','Scopus','UGC','Research Writing'] },
-  { no:'10', icon:'🏅', img:'https://images.unsplash.com/photo-1645570990200-2701a49d45ca?w=500&auto=format&fit=crop&q=60', title:'Patent Filing Assistance', desc:'Got an innovative idea? We help you draft, document and file patents — from prior art search to complete patent application preparation.', tags:['Patent Drafting','Prior Art','IP Filing'] },
+  { no:'01', icon:'🌐', img:'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=800&auto=format&fit=crop&q=80', title:'Web Development', desc:'Custom full-stack web applications — dashboards, portals, SaaS products and business websites built with modern MERN stack for speed and scale.', tags:['React','Node.js','MongoDB','Express'] },
+  { no:'02', icon:'📱', img:'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&auto=format&fit=crop&q=80', title:'Mobile App Development', desc:'Cross-platform mobile apps for iOS and Android from a single clean codebase. Smooth, native-feeling apps that users love.', tags:['React Native','Expo'] },
+  { no:'03', icon:'🤖', img:'https://plus.unsplash.com/premium_photo-1676637656166-cb7b3a43b81a?w=800&auto=format&fit=crop&q=80', title:'AI & Automation', desc:'Integrate AI into your business — smart chatbots, document processing, workflow automation and intelligent data pipelines powered by LLMs.', tags:['OpenAI','LangChain','Python'] },
+  { no:'04', icon:'🛒', img:'https://images.unsplash.com/photo-1732258357159-599cd37a5b8a?w=800&auto=format&fit=crop&q=80', title:'E-Commerce Platforms', desc:'Custom online stores with payment gateway integration, inventory management, order tracking and seller dashboards tailored to your business.', tags:['Next.js','Stripe','Razorpay'] },
+  { no:'05', icon:'🎓', img:'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&auto=format&fit=crop&q=80', title:'Academic & School Projects', desc:'Final-year engineering projects, school science projects and Arduino-based embedded projects — from concept to completion, fully documented and presentation-ready.', tags:['All Stacks','Arduino','Documentation','Guidance'] },
+  { no:'06', icon:'🎨', img:'https://images.unsplash.com/photo-1618788372246-79faff0c3742?w=800&auto=format&fit=crop&q=80', title:'UI/UX Design', desc:'Clean, modern interfaces that look premium and feel intuitive — wireframes, prototypes and pixel-perfect design systems.', tags:['Figma','Prototyping','Design Systems'] },
+  { no:'07', icon:'🔌', img:'https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80', title:'Embedded & Arduino Projects', desc:'Microcontroller-based project development — IoT systems, sensor integration, Arduino/Raspberry Pi/ESP32 projects and firmware programming for students and industries.', tags:['Arduino','Raspberry Pi','ESP32','IoT','C/C++'] },
+  { no:'08', icon:'🔧', img:'https://plus.unsplash.com/premium_photo-1683120972279-87efe2ba252f?w=800&auto=format&fit=crop&q=80', title:'Hardware Projects', desc:'End-to-end hardware project development — circuit design, PCB layout and physical prototyping for academic and industrial applications.', tags:['PCB Design','Prototyping','Circuit Design'] },
+  { no:'09', icon:'📄', img:'https://images.unsplash.com/photo-1570929057588-6952f7dd2305?w=800&auto=format&fit=crop&q=80', title:'Journal & Research Papers', desc:'We help students and researchers write, format and publish IEEE/Scopus/UGC journal papers and research articles — topic selection to final submission.', tags:['IEEE','Scopus','UGC','Research Writing'] },
+  { no:'10', icon:'🏅', img:'https://images.unsplash.com/photo-1645570990200-2701a49d45ca?w=800&auto=format&fit=crop&q=80', title:'Patent Filing Assistance', desc:'Got an innovative idea? We help you draft, document and file patents — from prior art search to complete patent application preparation.', tags:['Patent Drafting','Prior Art','IP Filing'] },
 ]
 
 const PROCESS = [
@@ -40,27 +40,39 @@ const scroll = (id) => document.querySelector(id)?.scrollIntoView({ behavior:'sm
 function SrvScroll() {
   const [active, setActive] = useState(0)
   const total = SERVICES.length
+  const wrapRef = useRef(null)
 
-  const prev = () => setActive(i => Math.max(0, i - 1))
-  const next = () => setActive(i => Math.min(total - 1, i + 1))
+  const goTo = (i) => {
+    i = Math.max(0, Math.min(total - 1, i))
+    setActive(i)
+  }
 
+  // keyboard
   useEffect(() => {
     const fn = (e) => {
-      if (e.key === 'ArrowLeft')  prev()
-      if (e.key === 'ArrowRight') next()
+      if (e.key === 'ArrowLeft')  goTo(active - 1)
+      if (e.key === 'ArrowRight') goTo(active + 1)
     }
     window.addEventListener('keydown', fn)
     return () => window.removeEventListener('keydown', fn)
   }, [active])
 
-  // touch swipe
+  // touch swipe — only on mobile wrap
   const tx = useRef(0)
   const onTS = (e) => { tx.current = e.touches[0].clientX }
   const onTE = (e) => {
     const d = tx.current - e.changedTouches[0].clientX
-    if (d > 40)  next()
-    if (d < -40) prev()
+    if (d > 40)  goTo(active + 1)
+    if (d < -40) goTo(active - 1)
   }
+
+  // pixel offset = active * container width
+  const [offset, setOffset] = useState(0)
+  useEffect(() => {
+    if (wrapRef.current) {
+      setOffset(active * wrapRef.current.offsetWidth)
+    }
+  }, [active])
 
   return (
     <>
@@ -82,22 +94,26 @@ function SrvScroll() {
         ))}
       </div>
 
-      {/* ── MOBILE: clean horizontal scroll ── */}
-      <div className="srv-mob-wrap"
+      {/* ── MOBILE: full-width slide carousel ── */}
+      <div className="srv-mob-wrap" ref={wrapRef}
         onTouchStart={onTS} onTouchEnd={onTE}>
 
-        {/* sliding track */}
+        {/* track — moves by exact pixel width */}
         <div className="srv-mob-track"
-          style={{ transform: `translateX(calc(-${active * 100}%))` }}>
+          style={{ transform: `translateX(-${offset}px)` }}>
           {SERVICES.map((s, i) => {
             const on = i === active
             return (
-              <div key={s.no} className={`srv-mob-slide${on ? ' active' : ''}`}
-                onClick={() => setActive(i)}>
-                <div className="srv-mob-slide-card">
+              <div key={s.no} className="srv-mob-slide">
+                <div className={`srv-mob-slide-card${on ? ' active' : ''}`}>
                   {s.img
-                    ? <img src={s.img} alt={s.title} className="srv-mob-slide-img"
-                        draggable={false} loading="lazy"/>
+                    ? <img
+                        src={s.img}
+                        alt={s.title}
+                        className="srv-mob-slide-img"
+                        draggable={false}
+                        loading="lazy"
+                      />
                     : <div className="srv-mob-slide-icon">{s.icon}</div>
                   }
                   <div className="srv-mob-slide-body">
@@ -105,7 +121,9 @@ function SrvScroll() {
                     <h3>{s.title}</h3>
                     <p>{s.desc}</p>
                     <div className="srv-mob-slide-tags">
-                      {s.tags.map(t => <span key={t} className="chip">{t}</span>)}
+                      {s.tags.map(t => (
+                        <span key={t} className="chip">{t}</span>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -114,13 +132,15 @@ function SrvScroll() {
           })}
         </div>
 
-        {/* dots + counter */}
+        {/* dots */}
         <div className="srv-mob-dots">
           {SERVICES.map((_, i) => (
-            <button key={i} onClick={() => setActive(i)}
+            <button key={i} onClick={() => goTo(i)}
               className={`srv-mob-dot${i === active ? ' on' : ''}`}/>
           ))}
         </div>
+
+        {/* counter */}
         <div className="srv-mob-counter">
           <span>{SERVICES[active].title}</span>
           <span className="srv-mob-count-num"> · {active + 1}/{total}</span>
@@ -128,17 +148,85 @@ function SrvScroll() {
 
         {/* prev / next */}
         <div className="srv-mob-nav">
-          <button onClick={prev} disabled={active === 0}
+          <button onClick={() => goTo(active - 1)} disabled={active === 0}
             className="srv-mob-nav-btn">‹ Prev</button>
-          <button onClick={next} disabled={active === total - 1}
+          <button onClick={() => goTo(active + 1)} disabled={active === total - 1}
             className="srv-mob-nav-btn">Next ›</button>
         </div>
-
       </div>
     </>
   )
 }
 
+
+function MobileCarousel() {
+  const [active, setActive] = useState(0)
+  const wrapRef = useRef(null)
+  const total   = SERVICES.length
+
+  const goTo = (i) => {
+    i = Math.max(0, Math.min(total - 1, i))
+    setActive(i)
+    if (wrapRef.current) {
+      const w = wrapRef.current.offsetWidth
+      wrapRef.current.querySelector('.mctrack').style.transform = `translateX(-${i * w}px)`
+    }
+  }
+
+  useEffect(() => {
+    goTo(0)
+  }, [])
+
+  // touch
+  const tx = useRef(0)
+  const onTS = (e) => { tx.current = e.touches[0].clientX }
+  const onTE = (e) => {
+    const d = tx.current - e.changedTouches[0].clientX
+    if (d > 40)  goTo(active + 1)
+    if (d < -40) goTo(active - 1)
+  }
+
+  return (
+    <div className="mc-wrap" ref={wrapRef}
+      onTouchStart={onTS} onTouchEnd={onTE}>
+      <div className="mctrack">
+        {SERVICES.map((s, i) => (
+          <div key={s.no} className="mc-slide">
+            <div className={`mc-card${i===active?' mc-active':''}`}>
+              {s.img
+                ? <img src={s.img} alt={s.title} className="mc-img" loading="lazy"/>
+                : <div className="mc-icon">{s.icon}</div>
+              }
+              <div className="mc-body">
+                <span className="mc-num">{s.no}</span>
+                <h3 className="mc-title">{s.title}</h3>
+                <p className="mc-desc">{s.desc}</p>
+                <div className="mc-tags">
+                  {s.tags.map(t => <span key={t} className="chip">{t}</span>)}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* dots */}
+      <div className="mc-dots">
+        {SERVICES.map((_,i) => (
+          <button key={i} onClick={()=>goTo(i)}
+            className={`mc-dot${i===active?' mc-dot-on':''}`}/>
+        ))}
+      </div>
+
+      {/* nav */}
+      <div className="mc-nav">
+        <button onClick={()=>goTo(active-1)} disabled={active===0} className="mc-btn">‹ Prev</button>
+        <span className="mc-count">{active+1} / {total}</span>
+        <button onClick={()=>goTo(active+1)} disabled={active===total-1} className="mc-btn">Next ›</button>
+      </div>
+    </div>
+  )
+}
 
 export default function Home() {
   const [projects,      setProjects]      = useState([])
@@ -241,13 +329,29 @@ export default function Home() {
             <Reveal>
               <div className="sec-tag">What We Build</div>
               <h2 className="sec-h2">Ten Ways We<br/><em>Solve Your Problems</em></h2>
-              <p className="sec-p">From software to hardware — scroll sideways through all our services.</p>
+              <p className="sec-p">From software to hardware — swipe through all our services.</p>
             </Reveal>
-
-            {/* ── Horizontal Scroll Cards with drag support ── */}
-            <SrvScroll/>
+            {/* Desktop grid — inside sec-body */}
+            <div className="srv-desktop-grid">
+              {SERVICES.map((s) => (
+                <div key={s.no} className="srv-grid-card">
+                  {s.img
+                    ? <img src={s.img} alt={s.title} className="srv-grid-img" loading="lazy"/>
+                    : <div className="srv-grid-icon">{s.icon}</div>
+                  }
+                  <div className="srv-grid-num">{s.no}</div>
+                  <h3>{s.title}</h3>
+                  <p>{s.desc}</p>
+                  <div className="srv-grid-tags">
+                    {s.tags.map(t => <span key={t} className="chip">{t}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+        {/* Mobile carousel — OUTSIDE sec-grid, full page width */}
+        <MobileCarousel/>
       </section>
 
       {/* ══ PROJECTS ══ */}
