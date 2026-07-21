@@ -11,7 +11,7 @@ const SERVICES = [
   { no:'02', icon:'📱', img:'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&auto=format&fit=crop&q=80', title:'Mobile App Development', desc:'Cross-platform mobile apps for iOS and Android from a single clean codebase. Smooth, native-feeling apps that users love.', tags:['React Native','Expo'] },
   { no:'03', icon:'🤖', img:'https://plus.unsplash.com/premium_photo-1676637656166-cb7b3a43b81a?w=800&auto=format&fit=crop&q=80', title:'AI & Automation', desc:'Integrate AI into your business — smart chatbots, document processing, workflow automation and intelligent data pipelines powered by LLMs.', tags:['OpenAI','LangChain','Python'] },
   { no:'04', icon:'🛒', img:'https://images.unsplash.com/photo-1732258357159-599cd37a5b8a?w=800&auto=format&fit=crop&q=80', title:'E-Commerce Platforms', desc:'Custom online stores with payment gateway integration, inventory management, order tracking and seller dashboards tailored to your business.', tags:['Next.js','Stripe','Razorpay'] },
-  { no:'05', icon:'🎓', img:'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&auto=format&fit=crop&q=80', title:'Academic & School Projects', desc:'Final-year engineering projects, school science projects and Arduino-based embedded projects — from concept to completion, fully documented and presentation-ready.', tags:['All Stacks','Arduino','Documentation','Guidance'] },
+  { no:'05', icon:'🎓', img:'https://images.unsplash.com/photo-1572177812156-58036aae439c?w=800&auto=format&fit=crop&q=80', title:'Academic & School Projects', desc:'Final-year engineering projects, school science projects and Arduino-based embedded projects — from concept to completion, fully documented and presentation-ready.', tags:['All Stacks','Arduino','Documentation','Guidance'] },
   { no:'06', icon:'🎨', img:'https://images.unsplash.com/photo-1618788372246-79faff0c3742?w=800&auto=format&fit=crop&q=80', title:'UI/UX Design', desc:'Clean, modern interfaces that look premium and feel intuitive — wireframes, prototypes and pixel-perfect design systems.', tags:['Figma','Prototyping','Design Systems'] },
   { no:'07', icon:'🔌', img:'https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80', title:'Embedded & Arduino Projects', desc:'Microcontroller-based project development — IoT systems, sensor integration, Arduino/Raspberry Pi/ESP32 projects and firmware programming for students and industries.', tags:['Arduino','Raspberry Pi','ESP32','IoT','C/C++'] },
   { no:'08', icon:'🔧', img:'https://plus.unsplash.com/premium_photo-1683120972279-87efe2ba252f?w=800&auto=format&fit=crop&q=80', title:'Hardware Projects', desc:'End-to-end hardware project development — circuit design, PCB layout and physical prototyping for academic and industrial applications.', tags:['PCB Design','Prototyping','Circuit Design'] },
@@ -296,7 +296,7 @@ export default function Home() {
           <div className="hero-img-wrap">
             <div className="hero-img-border">
               <img
-                src="https://images.unsplash.com/photo-1631375937044-6dd5beac01d2?w=800&auto=format&fit=crop&q=80"
+                src="https://plus.unsplash.com/premium_photo-1752326185528-2ae789bd1581?w=800&auto=format&fit=crop&q=80"
                 alt="TechStack — Engineering Digital Excellence"
                 className="hero-img"
                 loading="lazy"
