@@ -13,6 +13,11 @@ export default function AdminDashboard() {
   const [projects, setProjects]         = useState([])
   const [achievements, setAchievements] = useState([])
   const [feedbacks, setFeedbacks]       = useState([])
+  const [settings,  setSettings]        = useState([])
+  const [setgSaving, setSaving]         = useState(false)
+  const [settingVals, setSettingVals]   = useState({})
+  const [editingProject, setEditingProject] = useState(null)
+  const [editingAch,     setEditingAch]     = useState(null)
   const [loading, setLoading]       = useState(true)
   const [filter, setFilter]         = useState('all')
   const [expanded, setExpanded]     = useState(null)
@@ -31,16 +36,22 @@ export default function AdminDashboard() {
 
   const fetchAll = async () => {
     try {
-      const [c, p, a, fb] = await Promise.all([
+      const [c, p, a, fb, st] = await Promise.all([
         axios.get(`${API}/api/contact`, auth()),
         axios.get(`${API}/api/projects/all`, auth()),
         axios.get(`${API}/api/achievements/all`, auth()),
         axios.get(`${API}/api/feedback/all`, auth()),
+        axios.get(`${API}/api/settings/all`, auth()),
       ])
       setContacts(c.data.contacts || [])
       setProjects(p.data.projects || [])
       setAchievements(a.data.achievements || [])
       setFeedbacks(fb.data.feedbacks || [])
+      const sArr = st.data.settings || []
+      setSettings(sArr)
+      const vals = {}
+      sArr.forEach(s => { vals[s.key] = s.value })
+      setSettingVals(vals)
     } catch(e) { if(e.response?.status===401) nav('/admin') }
     finally { setLoading(false) }
   }
@@ -167,6 +178,7 @@ export default function AdminDashboard() {
           {key:'projects',    label:`Projects (${projects.length})`},
           {key:'achievements',label:`Achievements (${achievements.length})`},
           {key:'feedback',    label:`Reviews (${feedbacks.filter(f=>!f.approved).length} pending)`},
+          {key:'settings',    label:'⚙ Site Settings'},
         ].map(t=>(
           <button key={t.key} className={`admin-tab${tab===t.key?' active':''}`} onClick={()=>setTab(t.key)}>
             {t.label}
@@ -484,6 +496,89 @@ export default function AdminDashboard() {
               </table>
             )}
           </>
+        )}
+
+        {/* ── SETTINGS TAB ── */}
+        {tab==='settings' && (
+          <div style={{maxWidth:'780px'}}>
+            <div className="admin-section-title">
+              Site Settings
+              <span style={{fontFamily:'var(--mono)',fontSize:'.72rem',color:'var(--silver3)',fontWeight:400}}>
+                Change text, images and contact info — updates live on website
+              </span>
+            </div>
+
+            {/* Group settings by category */}
+            {[
+              { label:'🏠 Hero Section',   keys:['hero_title_line1','hero_title_line2','hero_subtitle','hero_badge','hero_image'] },
+              { label:'📞 Contact Info',   keys:['contact_email','contact_phone','contact_location','contact_time'] },
+              { label:'🏢 Company Info',   keys:['company_name','company_tagline','company_founded','company_location'] },
+              { label:'📱 Social Links',   keys:['social_instagram','social_github','social_twitter'] },
+              { label:'🖼 Service Images', keys:['srv_img_01','srv_img_02','srv_img_03','srv_img_04','srv_img_05','srv_img_06','srv_img_07','srv_img_08','srv_img_09','srv_img_10'] },
+            ].map(group => (
+              <div key={group.label} style={{marginBottom:'2rem'}}>
+                <div style={{fontFamily:'var(--mono)',fontSize:'.72rem',color:'var(--purple2)',letterSpacing:'.1em',textTransform:'uppercase',marginBottom:'1rem',paddingBottom:'.5rem',borderBottom:'1px solid var(--border2)'}}>
+                  {group.label}
+                </div>
+                <div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
+                  {group.keys.map(key => {
+                    const s = settings.find(x => x.key === key)
+                    if (!s) return null
+                    return (
+                      <div key={key}>
+                        <label style={{fontFamily:'var(--mono)',fontSize:'.65rem',color:'var(--silver2)',letterSpacing:'.08em',display:'block',marginBottom:'.35rem'}}>
+                          {s.label}
+                        </label>
+                        {s.type === 'textarea'
+                          ? <textarea
+                              value={settingVals[key] || ''}
+                              onChange={e=>setSettingVals(v=>({...v,[key]:e.target.value}))}
+                              style={{width:'100%',minHeight:'80px',resize:'vertical',background:'var(--bg)',border:'1px solid var(--border2)',borderRadius:'6px',padding:'.6rem .8rem',color:'var(--white)',fontFamily:'var(--sans)',fontSize:'.85rem',boxSizing:'border-box'}}
+                            />
+                          : <input
+                              type={s.type==='email'?'email':s.type==='phone'?'tel':'text'}
+                              value={settingVals[key] || ''}
+                              onChange={e=>setSettingVals(v=>({...v,[key]:e.target.value}))}
+                              style={{width:'100%',background:'var(--bg)',border:'1px solid var(--border2)',borderRadius:'6px',padding:'.6rem .8rem',color:'var(--white)',fontFamily:'var(--sans)',fontSize:'.85rem',boxSizing:'border-box'}}
+                            />
+                        }
+                        {/* Image preview */}
+                        {s.type === 'url' && settingVals[key] && (
+                          <img src={settingVals[key]} alt="preview"
+                            style={{width:'100%',maxHeight:'120px',objectFit:'cover',borderRadius:'6px',marginTop:'.4rem',border:'1px solid var(--border2)'}}
+                            onError={e=>e.target.style.display='none'}
+                          />
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            ))}
+
+            <button
+              onClick={async () => {
+                setSaving(true)
+                try {
+                  await axios.post(`${API}/api/settings/bulk`, { settings: settingVals }, auth())
+                  alert('✅ Settings saved! Changes are now live on the website.')
+                } catch {
+                  alert('❌ Failed to save. Try again.')
+                } finally { setSaving(false) }
+              }}
+              style={{
+                padding:'.75rem 2rem',background:'var(--purple)',color:'#000',
+                border:'none',borderRadius:'8px',fontWeight:700,fontSize:'.9rem',
+                cursor:'pointer',fontFamily:'var(--sans)',marginTop:'1rem',
+                opacity: setgSaving ? 0.6 : 1,
+              }}
+            >
+              {setgSaving ? 'Saving...' : '💾 Save All Changes'}
+            </button>
+            <p style={{fontFamily:'var(--mono)',fontSize:'.65rem',color:'var(--silver3)',marginTop:'.5rem'}}>
+              ✦ Changes take effect immediately after saving
+            </p>
+          </div>
         )}
 
       </div>

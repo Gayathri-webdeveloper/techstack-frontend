@@ -232,6 +232,7 @@ export default function Home() {
   const [projects,      setProjects]      = useState([])
   const [achievements,  setAchievements]  = useState([])
   const [feedbacks,     setFeedbacks]     = useState([])
+  const [siteSettings, setSiteSettings]  = useState({})
   const [loadingP,      setLoadingP]      = useState(true)
   const [loadingA,      setLoadingA]      = useState(true)
 
@@ -250,6 +251,10 @@ export default function Home() {
     axios.get(`${API}/api/feedback`)
       .then(r  => setFeedbacks(r.data.feedbacks || []))
       .catch(() => setFeedbacks([]))
+
+    axios.get(`${API}/api/settings`)
+      .then(r  => setSiteSettings(r.data.settings || {}))
+      .catch(() => {})
   }, [])
 
   return (
@@ -262,15 +267,15 @@ export default function Home() {
           <div className="hero-inner">
             <div className="hero-badge">
               <span className="badge-dot"/>
-              Est. 2026 · Tirunelveli, Tamil Nadu
+              {siteSettings.hero_badge || "Est. 2026 · Tirunelveli, Tamil Nadu"}
             </div>
             <h1 className="hero-h1">
-              <span className="plain">Engineering</span>
-              <span className="grad">Digital Excellence</span>
+              <span className="plain">{siteSettings.hero_title_line1 || "Engineering"}</span>
+              <span className="grad">{siteSettings.hero_title_line2 || "Digital Excellence"}</span>
             </h1>
             <div className="hero-divider"/>
             <p className="hero-sub">
-              TechStack is a full-service software studio delivering precision-built web apps, mobile apps, AI solutions, e-commerce platforms, embedded systems and hardware projects — engineered to the highest standard.
+              {siteSettings.hero_subtitle || "TechStack is a full-service software studio delivering precision-built web apps, mobile apps, AI solutions, e-commerce platforms, embedded systems and hardware projects — engineered to the highest standard."}
             </p>
             <div className="hero-actions">
               <button className="btn btn-purple" onClick={()=>scroll('#contact')}>Start a Project →</button>
@@ -296,7 +301,7 @@ export default function Home() {
           <div className="hero-img-wrap">
             <div className="hero-img-border">
               <img
-                src="https://plus.unsplash.com/premium_photo-1752326185528-2ae789bd1581?w=800&auto=format&fit=crop&q=80"
+                src={siteSettings.hero_image || "https://plus.unsplash.com/premium_photo-1752326185528-2ae789bd1581?w=800&auto=format&fit=crop&q=80"}
                 alt="TechStack — Engineering Digital Excellence"
                 className="hero-img"
                 loading="lazy"
@@ -864,10 +869,10 @@ export default function Home() {
               <h2>Let us Discuss<br/><em>Your Project.</em></h2>
               <p>Tell us what you want to build. We will come back to you within 24 hours with a clear scope, timeline and pricing. No obligation, no pressure.</p>
               {[
-                { icon:'📧', text:'balaganesh010@gmail.com' },
+                { icon:'📧', text: siteSettings.contact_email || 'balaganesh010@gmail.com' },
                 { icon:'📞', text:'+91 XXXXX XXXXX (update soon)' },
                 { icon:'📍', text:'Tirunelveli, Tamil Nadu, India' },
-                { icon:'🕐', text:'Flexible & Adaptable — We work around your schedule' },
+                { icon:'🕐', text: siteSettings.contact_time || 'Flexible & Adaptable — We work around your schedule' },
                 { icon:'⚡', text:'Response within 24 hours, guaranteed' },
               ].map(c => (
                 <div key={c.text} className="contact-item">

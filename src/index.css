@@ -379,7 +379,7 @@ footer{background:var(--bg);border-top:none;padding:4rem;display:grid;grid-templ
 .admin-wrap{min-height:100vh;background:#030806;color:#C8D0E0;}
 .admin-nav{background:#060F08;border-bottom:1px solid rgba(0,200,83,.12);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
 .admin-nav h1{font-family:var(--serif);font-size:1.1rem;color:var(--purple2);}
-.admin-tabs{display:flex;border-bottom:1px solid rgba(0,200,83,.08);background:#060F08;padding:0 2rem;}
+.admin-tabs{display:flex;border-bottom:1px solid var(--border2);background:#060F08;padding:0 2rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;position:relative;}
 .admin-tab{padding:1rem 1.5rem;font-family:var(--mono);font-size:.72rem;color:var(--silver3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .2s;letter-spacing:.06em;}
 .admin-tab.active{color:var(--purple2);border-bottom-color:var(--purple2);}
 .admin-tab:hover{color:var(--silver);}
@@ -1187,7 +1187,7 @@ tr:hover td{background:rgba(0,200,83,.03);}
 
   /* ADMIN */
   .admin-stats{ grid-template-columns:1fr 1fr; }
-  .admin-tabs{ overflow-x:auto; white-space:nowrap; padding:0 1rem; }
+  .admin-tabs{ overflow-x:auto; white-space:nowrap; padding:0 0.5rem; scrollbar-width:none; }
   .add-form-grid{ grid-template-columns:1fr; }
   .admin-cards{ grid-template-columns:1fr; }
   table{ font-size:.75rem; }
@@ -3253,3 +3253,5 @@ footer .foot-bottom {
     color: var(--silver3);
   }
 }
+
+.admin-tabs::-webkit-scrollbar{display:none;}
